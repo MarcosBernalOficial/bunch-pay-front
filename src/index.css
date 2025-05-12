@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* tailwind styles (ej: index.css o global.css) */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #6366f1; /* primary color */
+    border-radius: 4px;
+}
+
+@font-face {
+    font-family: 'chillax';
+    src: url('./assets/fonts/Chillax-Bold.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'supreme';
+    src: url('./assets/fonts/Supreme-Medium.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* --- SCROLLBAR GLOBAL --- */
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #93C5FD; /* primary */
+    border-radius: 9999px;
+}
+
+/* ELIMINAR LAS FLECHITAS (botones de scroll vertical y horizontal) */
+*::-webkit-scrollbar-button {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #93C5FD transparent;
+}
+
