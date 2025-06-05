@@ -22,17 +22,16 @@ export default function Login() {
         setLoginError('');
         navigate('/');
         } catch (error) {
-        console.error(error);
-        if (
-            error.response &&
-            error.response.data &&
-            typeof error.response.data === 'string'
-        ) {
-            setLoginError(error.response.data);
-        } else {
-            setLoginError('Credenciales inválidas o error en el servidor.');
+            console.error(error);
+
+            if (error.response && error.response.data) {
+                const { message } = error.response.data;
+                setLoginError(message || 'Error desconocido');
+            } else {
+                setLoginError('Credenciales inválidas o error en el servidor.');
+            }
         }
-        }
+
     };
 
     return (
