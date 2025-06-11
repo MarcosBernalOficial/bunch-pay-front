@@ -1,20 +1,20 @@
+// utils/api.js
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:8080', // Cambiá si es otro host o puerto
+  baseURL: 'http://localhost:8080', // Ajusta según tu configuración
 });
 
-// ✅ Agregar token automáticamente si existe
-api.interceptors.request.use((config) => {
-  const user = JSON.parse(sessionStorage.getItem('user')); // Convertimos el string a objeto
-  const token = user?.token; // Usamos optional chaining por si user es null
-  console.log(token);
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  console.log(config);
-  return config;
-});
+api.interceptors.request.use(
+  (config) => {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 axios.interceptors.request.use(config => {
       console.log('Solicitud:', config);
@@ -27,3 +27,4 @@ axios.interceptors.request.use(config => {
     });
 
 export default api;
+

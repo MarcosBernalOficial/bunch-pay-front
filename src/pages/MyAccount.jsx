@@ -9,7 +9,6 @@ import DashboardFooter from '../components/DashboardFooter';
 export default function MyAccount() {
     const [activeTab, setActiveTab] = useState('datos');
     const [clientData, setClientData] = useState(null);
-    const [showLogout, setShowLogout] = useState(false);
 
     useEffect(() => {
         const fetchClient = async () => {
@@ -55,13 +54,6 @@ export default function MyAccount() {
                                 Chat Soporte
                             </button>
                         </div>
-                        <button
-                            onClick={() => setShowLogout(true)}
-                            className="ml-4 px-3 py-1 rounded bg-red-500 text-white hover:bg-red-700 transition font-bold"
-                            title="Cerrar sesión"
-                        >
-                            Logout
-                        </button>
                     </div>
 
                     {/* Render condicional */}
@@ -72,46 +64,6 @@ export default function MyAccount() {
                     {activeTab === 'soporte' && <SupportChat />}
                 </motion.div>
             </div>
-
-            {/* Modal de logout */}
-            <AnimatePresence>
-                {showLogout && (
-                    <motion.div
-                        className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                    >
-                        <motion.div
-                            className="bg-blue-dark rounded-xl p-8 border border-blue-accent shadow-lg text-center max-w-sm w-full"
-                            initial={{ scale: 0.85, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            exit={{ scale: 0.85, opacity: 0 }}
-                        >
-                            <h4 className="text-xl font-bold mb-4 text-blue-accent">¿Seguro que querés cerrar sesión?</h4>
-                            <p className="mb-6 text-gray-200">Tu sesión se cerrará y volverás a la pantalla de inicio de sesión.</p>
-                            <div className="flex justify-center gap-4">
-                                <button
-                                    onClick={() => {
-                                        sessionStorage.clear();
-                                        localStorage.clear();
-                                        window.location.href = '/login'; // Ajustá según tu ruta
-                                    }}
-                                    className="px-5 py-2 rounded bg-red-600 text-white hover:bg-red-700 font-bold transition"
-                                >
-                                    Sí, cerrar sesión
-                                </button>
-                                <button
-                                    onClick={() => setShowLogout(false)}
-                                    className="px-5 py-2 rounded bg-blue-accent text-blue-dark font-bold hover:bg-blue-light transition"
-                                >
-                                    Cancelar
-                                </button>
-                            </div>
-                        </motion.div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
 
             {/* Footer */}
             <div className="w-full border-t border-blue-accent">

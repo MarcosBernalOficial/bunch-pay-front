@@ -22,18 +22,15 @@ export default function PasswordForm() {
         e.preventDefault();
         setError(null);
         try {
-            console.log(formData);
             // Confirmá el endpoint, debería ser '/client/change-password'
             await api.put('/client/change-password', formData);
             setSuccess(true);
             setFormData({ currentPassword: '', newPassword: '' });
             setTimeout(() => setSuccess(false), 2500);
         } catch (err) {
-            const msg = err?.response?.data?.message || "Contraseña actual incorrecta o error al actualizar.";
-            setError(msg);
+            setError("Contraseña actual incorrecta o error al actualizar.");
             console.error(err);
         }
-
     };
 
     return (
