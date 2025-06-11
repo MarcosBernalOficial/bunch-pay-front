@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import api from '../utils/api';
 
 export default function PasswordForm() {
@@ -6,6 +8,8 @@ export default function PasswordForm() {
         currentPassword: '',
         newPassword: '',
     });
+    const [showCurrent, setShowCurrent] = useState(false);
+    const [showNew, setShowNew] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(null);
 
@@ -18,39 +22,62 @@ export default function PasswordForm() {
         e.preventDefault();
         setError(null);
         try {
-            await api.put('/clients/password', formData);
+            console.log(formData);
+            // Confirmá el endpoint, debería ser '/client/change-password'
+            await api.put('/client/change-password', formData);
             setSuccess(true);
             setFormData({ currentPassword: '', newPassword: '' });
             setTimeout(() => setSuccess(false), 2500);
         } catch (err) {
-            setError("Contraseña actual incorrecta o error al actualizar.");
+            const msg = err?.response?.data?.message || "Contraseña actual incorrecta o error al actualizar.";
+            setError(msg);
             console.error(err);
         }
+
     };
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4 mt-8">
             <h3 className="text-blue-accent font-semibold text-lg text-center mb-2">Cambiar contraseña</h3>
-
-            <div>
+            
+            <div className="relative">
                 <label className="text-blue-accent text-sm">Contraseña actual</label>
                 <input
-                    type="password"
+                    type={showCurrent ? "text" : "password"}
                     name="currentPassword"
                     value={formData.currentPassword}
                     onChange={handleChange}
-                    className="w-full bg-blue-dark text-white border border-blue-accent rounded px-3 py-2 mt-1"
+                    className="w-full bg-blue-dark text-white border border-blue-accent rounded px-3 py-2 mt-1 pr-10"
+                    autoComplete="current-password"
                 />
+                <button
+                    type="button"
+                    onClick={() => setShowCurrent(v => !v)}
+                    className="absolute right-3 top-9 text-blue-accent focus:outline-none"
+                    tabIndex={-1}
+                >
+                    <FontAwesomeIcon icon={showCurrent ? faEyeSlash : faEye} />
+                </button>
             </div>
-            <div>
+            
+            <div className="relative">
                 <label className="text-blue-accent text-sm">Nueva contraseña</label>
                 <input
-                    type="password"
+                    type={showNew ? "text" : "password"}
                     name="newPassword"
                     value={formData.newPassword}
                     onChange={handleChange}
-                    className="w-full bg-blue-dark text-white border border-blue-accent rounded px-3 py-2 mt-1"
+                    className="w-full bg-blue-dark text-white border border-blue-accent rounded px-3 py-2 mt-1 pr-10"
+                    autoComplete="new-password"
                 />
+                <button
+                    type="button"
+                    onClick={() => setShowNew(v => !v)}
+                    className="absolute right-3 top-9 text-blue-accent focus:outline-none"
+                    tabIndex={-1}
+                >
+                    <FontAwesomeIcon icon={showNew ? faEyeSlash : faEye} />
+                </button>
             </div>
 
             {error && <p className="text-red-400 text-sm">{error}</p>}

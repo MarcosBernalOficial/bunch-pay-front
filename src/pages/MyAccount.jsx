@@ -14,11 +14,11 @@ export default function MyAccount() {
         const fetchClient = async () => {
             if (activeTab !== 'datos') return;
             try {
-                const res = await api.get('/client/profile', {withCredentials: true});
+                const res = await api.get('/client/profile');
                 setClientData(res.data);
                 console.log("Respuesta de la API /client/profile:", res.data);
             } catch (err) {
-                console.error('Error al obtener los datos del cliente:', err);
+                console.error('Error al obtener los datos del cliente AUGUSTO:', err);
             }
         };
         fetchClient();

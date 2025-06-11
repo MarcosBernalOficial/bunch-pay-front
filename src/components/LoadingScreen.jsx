@@ -4,11 +4,11 @@ const LoadingScreen = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const alreadyLoaded = localStorage.getItem("alreadyLoaded");
+        const alreadyLoaded = sessionStorage.getItem("alreadyLoaded");
 
         if (!alreadyLoaded) {
         setLoading(true);
-        localStorage.setItem("alreadyLoaded", "true");
+        sessionStorage.setItem("alreadyLoaded", "true");
 
         const timer = setTimeout(() => {
             setLoading(false);

@@ -5,7 +5,6 @@ export default function AccountForm({ data, setClientData }) {
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
-        birthDate: '',
         dni: '',
         email: '',
     });
@@ -18,7 +17,6 @@ export default function AccountForm({ data, setClientData }) {
             setFormData({
                 firstName: data.firstName || '',
                 lastName: data.lastName || '',
-                birthDate: data.birthDate?.split('T')[0] || '',
                 dni: data.dni || '',
                 email: data.email || '',
             });
