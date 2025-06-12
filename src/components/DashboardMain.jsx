@@ -11,9 +11,11 @@ import {
     faFireFlameSimple,
     faMobileScreen,
 } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
 export default function DashboardMain() {
     const [balance, setBalance] = useState(null);
+    const [showBalance, setShowBalance] = useState(true);
 
     useEffect(() => {
         api.get('/accountClient/balance')
@@ -36,11 +38,19 @@ export default function DashboardMain() {
                 <div className="space-y-10">
                     <div className="bg-blue-mid rounded-xl p-6 border border-blue-accent">
                         <div className="flex justify-between items-center mb-2">
-                            <p className="text-sm text-blue-accent">Ocultar saldo</p>
+                            <button
+                                onClick={() => setShowBalance(!showBalance)}
+                                className="text-sm text-blue-accent flex items-center gap-2"
+                            >
+                                {showBalance ? 'Ocultar saldo' : 'Mostrar saldo'}
+                                <FontAwesomeIcon icon={showBalance ? faEyeSlash : faEye} />
+                            </button>
                         </div>
                         <h2 className="text-4xl font-bold my-4">
                             {balance && typeof balance.balance === 'number'
-                                ? `$ ${balance.balance.toLocaleString('es-AR', { minimumFractionDigits: 2 })}`
+                                ? showBalance
+                                    ? `$ ${balance.balance.toLocaleString('es-AR', { minimumFractionDigits: 2 })}`
+                                    : '$ •••••••'
                                 : 'Cargando...'}
                         </h2>
                         <div className="grid grid-cols-3 gap-3 text-sm text-center mt-4">
