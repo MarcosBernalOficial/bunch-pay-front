@@ -7,6 +7,10 @@ import MyAccount from '../pages/MyAccount';
 import TransferForm from '../components/TransferForm';
 import AliasCvuForm from '../components/AliasCvuForm';
 import CardForm from '../components/CardForm';
+import AdminPanel from "../pages/AdminPanel";
+import ClientSupportPage from "../pages/ClientSupportPage";
+import SupportPage from "../pages/SupportPage";
+
 
 export default function AppRoutes() {
     return (
@@ -52,6 +56,30 @@ export default function AppRoutes() {
                 element={
                     <ProtectedRoute>
                         <CardForm />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/admin"
+                element={
+                    <ProtectedRoute roles={["ADMIN"]}>
+                    <AdminPanel />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/client/support"
+                element={
+                    <ProtectedRoute roles={["CLIENT"]}>
+                    <ClientSupportPage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/support"
+                element={
+                    <ProtectedRoute roles={["SUPPORT"]}>
+                        <SupportPage />
                     </ProtectedRoute>
                 }
             />

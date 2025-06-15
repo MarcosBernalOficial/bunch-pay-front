@@ -1,31 +1,67 @@
 import { useEffect, useState } from 'react';
 import api from '../utils/api';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import AccountForm from '../components/AccountForm';
 import PasswordForm from '../components/PasswordForm';
 import SupportChat from '../components/SupportChat';
 import DashboardFooter from '../components/DashboardFooter';
+import {
+    startChat,
+    getMessages,
+    sendMessage,
+} from '../services/chatApi';
 
 export default function MyAccount() {
     const [activeTab, setActiveTab] = useState('datos');
     const [clientData, setClientData] = useState(null);
+    const [messages, setMessages] = useState([]);
+    const [chatId, setChatId] = useState(null);
 
     useEffect(() => {
-        const fetchClient = async () => {
-            if (activeTab !== 'datos') return;
-            try {
-                const res = await api.get('/client/profile');
-                setClientData(res.data);
-            } catch (err) {
-                console.error('Error al obtener los datos del cliente:', err);
-            }
-        };
-        fetchClient();
+        if (activeTab === 'datos') {
+            api.get('/client/profile')
+                .then((res) => setClientData(res.data))
+                .catch((err) =>
+                    console.error('Error al obtener los datos del cliente:', err)
+                );
+        }
     }, [activeTab]);
+
+    useEffect(() => {
+        if (activeTab !== 'soporte' || !chatId) return;
+
+        const interval = setInterval(async () => {
+            try {
+                const msgs = await getMessages(chatId);
+                setMessages(msgs);
+            } catch (err) {
+                console.error('Error al hacer polling de mensajes:', err);
+            }
+        }, 2000);
+
+        return () => clearInterval(interval);
+    }, [activeTab, chatId]);
+
+    const handleSendMessage = async (text) => {
+        try {
+            let id = chatId;
+
+            if (!id) {
+                const res = await startChat();
+                id = res.id;
+                setChatId(id);
+            }
+
+            await sendMessage(id, text);
+            const msgs = await getMessages(id);
+            setMessages(msgs);
+        } catch (err) {
+            console.error('Error al enviar mensaje al soporte:', err);
+        }
+    };
 
     return (
         <div className="min-h-screen flex flex-col bg-blue-dark text-white">
-            {/* Contenido principal */}
             <div className="flex-grow p-6">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -56,16 +92,20 @@ export default function MyAccount() {
                         </div>
                     </div>
 
-                    {/* Render condicional */}
                     {activeTab === 'datos' && clientData && (
                         <AccountForm data={clientData} setClientData={setClientData} />
                     )}
                     {activeTab === 'pass' && <PasswordForm />}
-                    {activeTab === 'soporte' && <SupportChat />}
+                    {activeTab === 'soporte' && (
+                        <SupportChat
+                            messages={messages}
+                            onSendMessage={handleSendMessage}
+                            isSupport={false}
+                        />
+                    )}
                 </motion.div>
             </div>
 
-            {/* Footer */}
             <div className="w-full border-t border-blue-accent">
                 <div className="max-w-screen-xl mx-auto">
                     <DashboardFooter />

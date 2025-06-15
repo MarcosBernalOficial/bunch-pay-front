@@ -20,7 +20,18 @@ export default function Login() {
         sessionStorage.setItem("token", userData.token);
 
         setLoginError('');
-        navigate('/');
+
+        switch (userData.rol?.toUpperCase()) {
+            case "ADMIN":
+                navigate("/admin");
+                break;
+            case "SUPPORT":
+                navigate("/support");
+                break;
+            default:
+                navigate("/");
+            }
+
         } catch (error) {
             console.error(error);
 
