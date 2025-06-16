@@ -17,6 +17,19 @@ export default function DashboardMain() {
     const [balance, setBalance] = useState(null);
     const [showBalance, setShowBalance] = useState(true);
 
+    const [transactions, setTransactions] = useState([]);
+
+    useEffect(() => {
+        api.get('/transactions/viewAll')
+            .then(res => {
+                setTransactions(res.data);
+            })
+            .catch(err => {
+                console.error('Error al cargar movimientos:', err);
+            });
+    }, []);
+
+
     useEffect(() => {
         api.get('/accountClient/balance')
             .then(res => {
@@ -107,14 +120,23 @@ export default function DashboardMain() {
                         Movimientos
                     </h3>
                     <div className="overflow-y-auto px-6 pb-6 space-y-4 text-sm flex-grow">
-                        <div className="flex justify-between">
-                            <span>🛍️ Compra en Starbucks</span>
-                            <span className="text-red-400">- $1.200,00</span>
-                        </div>
-                        <div className="flex justify-between">
-                            <span>💸 Ingreso de dinero</span>
-                            <span className="text-green-profit">+ $2.000,00</span>
-                        </div>
+                        {transactions.length === 0 ? (
+                            <p className="text-blue-200 text-center">Sin movimientos</p>
+                        ) : (
+                            transactions.map((tx) => (
+                                <div key={tx.id} className="flex justify-between items-center">
+                                    <span>
+                                        {tx.type === 'EXPENSE' ? '🛍️' : '💸'} {tx.description || 'Sin descripción'}
+                                    </span>
+                                    <span className={tx.type === 'EXPENSE' ? 'text-red-400' : 'text-green-profit'}>
+                                        {tx.type === 'EXPENSE' ? '-' : '+'} ${parseFloat(tx.amount).toLocaleString('es-AR', {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        })}
+                                    </span>
+                                </div>
+                            ))
+                        )}
                     </div>
                 </aside>
             </div>

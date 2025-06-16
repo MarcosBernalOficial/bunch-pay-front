@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import DashboardFooter from './DashboardFooter'; // Importá tu footer
+import DashboardFooter from './DashboardFooter';
+import api from '../utils/api';
 
 export default function TransferForm() {
     const [formData, setFormData] = useState({
@@ -18,14 +19,24 @@ export default function TransferForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+
+        // Validar si es CVU (22 dígitos) o alias
+        const isCVU = /^\d{22}$/.test(formData.toAliasOrCvu);
+        const payload = {
+            amount: parseFloat(formData.amount),
+            description: formData.description,
+            receiverAlias: isCVU ? null : formData.toAliasOrCvu,
+            receiverCVU: isCVU ? formData.toAliasOrCvu : null
+        };
+
         try {
-            // Cambia '/transfer' por la ruta que corresponda si hace falta
-            await api.post('/transfer', formData);
+            await api.post('/transactions/transfer', payload);
             setSuccess(true);
             setFormData({ toAliasOrCvu: '', amount: '', description: '' });
             setTimeout(() => setSuccess(false), 3000);
         } catch (err) {
-            setError('No se pudo realizar la transferencia.');
+            const message = err.response?.data?.message || 'No se pudo realizar la transferencia.';
+            setError(message);
             console.error(err);
         }
     };
@@ -62,6 +73,7 @@ export default function TransferForm() {
                             placeholder="Ej: 1500"
                             required
                             min="1"
+                            step="0.01"
                         />
                     </div>
                     <div>
@@ -88,7 +100,6 @@ export default function TransferForm() {
                 </form>
             </div>
             
-            {/* Footer */}
             <div className="w-full px-4 py-4 border-t border-blue-accent bg-blue-mid">
                 <div className="max-w-screen-xl mx-auto">
                     <DashboardFooter />
