@@ -57,7 +57,7 @@ export default function AliasCvuForm() {
                 } else if (status === 409) {
                     setError('El alias ya está en uso. Elegí otro.');
                 } else if (status === 500) {
-                    setError('Error interno del servidor. Intentá más tarde.');
+                    setError('Ocurrio un error. Intentá más tarde.');
                 } else {
                     setError(msg);
                 }

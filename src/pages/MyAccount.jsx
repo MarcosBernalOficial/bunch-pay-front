@@ -46,7 +46,7 @@ export default function MyAccount() {
                         const polledMsgs = await getMessages(id);
                         setMessages(polledMsgs);
                     } catch (err) {
-                        console.error('Error al hacer polling de mensajes:', err);
+                        console.error('Error al refrescar mensajes del chat:', err);
                     }
                 }, 2000);
             } catch (err) {
