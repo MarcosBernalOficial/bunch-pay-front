@@ -10,6 +10,7 @@ export default function TransferForm() {
     });
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -19,8 +20,8 @@ export default function TransferForm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
+        setLoading(true);
 
-        // Validar si es CVU (22 dígitos) o alias
         const isCVU = /^\d{22}$/.test(formData.toAliasOrCvu);
         const payload = {
             amount: parseFloat(formData.amount),
@@ -38,6 +39,8 @@ export default function TransferForm() {
             const message = err.response?.data?.message || 'No se pudo realizar la transferencia.';
             setError(message);
             console.error(err);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -88,12 +91,16 @@ export default function TransferForm() {
                         />
                     </div>
 
+                    {loading && (
+                        <p className="text-blue-200 text-center text-sm">Transfiriendo...</p>
+                    )}
                     {error && <p className="text-red-400 text-center text-sm">{error}</p>}
                     {success && <p className="text-green-400 text-center text-sm">Transferencia realizada ✅</p>}
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-accent text-blue-dark py-2 mt-2 rounded-lg font-semibold hover:bg-blue-light transition"
+                        className="w-full bg-blue-accent text-blue-dark py-2 mt-2 rounded-lg font-semibold hover:bg-blue-light transition disabled:opacity-60"
+                        disabled={loading}
                     >
                         Enviar
                     </button>

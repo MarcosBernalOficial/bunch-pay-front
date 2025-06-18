@@ -82,7 +82,7 @@ export default function MyAccount() {
     };
 
     return (
-        <div className="min-h-screen flex flex-col bg-blue-dark text-white">
+        <div className="min-h-screen flex flex-col bg-blue-dark text-white mb-16">
             <div className="flex-grow p-6">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}

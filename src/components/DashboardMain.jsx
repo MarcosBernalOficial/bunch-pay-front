@@ -12,6 +12,8 @@ import {
     faMobileScreen,
 } from '@fortawesome/free-solid-svg-icons';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faSteam } from '@fortawesome/free-brands-svg-icons';
+
 
 export default function DashboardMain() {
     const [balance, setBalance] = useState(null);
@@ -38,7 +40,7 @@ export default function DashboardMain() {
             })
             .catch(err => {
                 if (err.response) {
-                    console.error('Error en backend:', err.response.status, err.response.data);
+                    console.error(err.response.status, err.response.data);
                 } else {
                     console.error('Error:', err.message);
                 }
@@ -87,18 +89,15 @@ export default function DashboardMain() {
 
                     <div className="bg-blue-mid rounded-xl p-6 border border-blue-accent">
                         <h3 className="text-blue-accent text-center text-lg font-semibold mb-4">Servicios</h3>
-                        <div className="grid grid-cols-4 gap-5 text-sm text-center">
+                        <div className="grid grid-cols-3 gap-5 text-sm text-center">
                             <button className="bg-blue-dark p-2 rounded-md border border-blue-accent">
                                 <FontAwesomeIcon icon={faTrainSubway} className="text-xl" />
                             </button>
-                            <button className="bg-blue-dark p-3 rounded-md border border-blue-accent">
-                                <FontAwesomeIcon icon={faFaucetDrip} className="text-xl" />
-                            </button>
-                            <button className="bg-blue-dark p-2 rounded-md border border-blue-accent">
-                                <FontAwesomeIcon icon={faFireFlameSimple} className="text-xl" />
-                            </button>
                             <button className="bg-blue-dark p-2 rounded-md border border-blue-accent">
                                 <FontAwesomeIcon icon={faMobileScreen} className="text-xl" />
+                            </button>
+                            <button className="bg-blue-dark p-2 rounded-md border border-blue-accent">
+                                <FontAwesomeIcon icon={faSteam} className="text-xl" />
                             </button>
                         </div>
                     </div>

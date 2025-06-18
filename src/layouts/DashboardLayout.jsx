@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import DashboardHeader from '../components/DashboardHeader';
 import DashboardFooter from '../components/DashboardFooter';
-import { fetchNotifications } from '../services/notificationsApi'; // asegurate de tener esto
+import { fetchNotifications } from '../services/notificationsApi';
 
 export default function DashboardLayout({ children }) {
     const [unreadCount, setUnreadCount] = useState(0);

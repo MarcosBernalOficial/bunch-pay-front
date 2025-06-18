@@ -33,7 +33,7 @@ export default function Notifications() {
                         </h2>
                     </div>
                 </div>
-                <ul className="space-y-5">
+                <ul className="space-y-5 mx-3">
                     {notifications.map(n => (
                         <li
                             key={n.id}

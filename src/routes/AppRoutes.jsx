@@ -12,6 +12,8 @@ import ClientSupportPage from "../pages/ClientSupportPage";
 import SupportPage from "../pages/SupportPage";
 import Movimientos from '../components/Movimientos';
 import Notifications from '../pages/Notifications';
+import Balance from '../components/BalanceDashboard';
+import CryptoPrices from "../components/CryptoPrices";
 
 export default function AppRoutes() {
     return (
@@ -97,6 +99,22 @@ export default function AppRoutes() {
                 element={
                     <ProtectedRoute>
                         <Notifications />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/Balance"
+                element={
+                    <ProtectedRoute>
+                        <Balance />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/crypto"
+                element={
+                    <ProtectedRoute>
+                        <CryptoPrices />
                     </ProtectedRoute>
                 }
             />
