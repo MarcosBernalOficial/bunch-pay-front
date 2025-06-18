@@ -10,7 +10,8 @@ import CardForm from '../components/CardForm';
 import AdminPanel from "../pages/AdminPanel";
 import ClientSupportPage from "../pages/ClientSupportPage";
 import SupportPage from "../pages/SupportPage";
-
+import Movimientos from '../components/Movimientos';
+import Notifications from '../pages/Notifications';
 
 export default function AppRoutes() {
     return (
@@ -80,6 +81,22 @@ export default function AppRoutes() {
                 element={
                     <ProtectedRoute roles={["SUPPORT"]}>
                         <SupportPage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/movimientos"
+                element={
+                    <ProtectedRoute>
+                        <Movimientos />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/notifications"
+                element={
+                    <ProtectedRoute>
+                        <Notifications />
                     </ProtectedRoute>
                 }
             />

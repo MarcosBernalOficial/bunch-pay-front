@@ -2,6 +2,14 @@ import { useEffect, useState } from 'react';
 import api from '../utils/api';
 import DashboardFooter from './DashboardFooter';
 
+// Etiquetas en español para los tipos
+const typeLabels = {
+    DEPOSITO: "Depósito",
+    RETIRO: "Retiro",
+    PAGO: "Pago",
+    TRANSFERENCIA: "Transferencia", // Por si quedan viejos, se muestra igual
+};
+
 export default function Movimientos() {
     const [transactions, setTransactions] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -20,6 +28,18 @@ export default function Movimientos() {
             });
     }, []);
 
+    // Función mejorada para decidir si es gasto o ingreso
+    function isExpense(tx) {
+        // Si ya tenés tipo nuevo
+        if (tx.type === "RETIRO" || tx.type === "PAGO") return true;
+        if (tx.type === "DEPOSITO") return false;
+        // Por si tenés movimientos viejos con TRANSFERENCIA
+        if (tx.type === "TRANSFERENCIA" && tx.description === "Envio") return true;
+        if (tx.type === "TRANSFERENCIA" && tx.description === "Recibido") return false;
+        // Default a gasto por seguridad
+        return true;
+    }
+
     return (
         <div className="min-h-screen flex flex-col bg-blue-dark justify-between">
             <div className="flex-grow p-4 max-w-2xl mx-auto w-full">
@@ -34,14 +54,15 @@ export default function Movimientos() {
                 <div className="space-y-4">
                     {transactions.map(tx => (
                         <div
-                            key={tx.id}
+                            key={tx.id || `${tx.type}-${tx.date}-${tx.amount}`}
                             className="bg-blue-mid border border-blue-accent rounded-xl p-4 shadow transition hover:scale-[1.01]"
                         >
                             <div className="flex justify-between text-sm text-blue-200 mb-1">
                                 <span>{new Date(tx.date).toLocaleDateString('es-AR')}</span>
-                                <span>{tx.type}</span>
+                                <span>{typeLabels[tx.type] || tx.type}</span>
                             </div>
-                            <div className="text-white text-lg font-semibold">
+                            <div className={`text-lg font-semibold ${isExpense(tx) ? 'text-red-400' : 'text-green-profit'}`}>
+                                {isExpense(tx) ? '-' : '+'}
                                 {tx.amount.toLocaleString('es-AR', { style: 'currency', currency: 'ARS' })}
                             </div>
                             <div className="text-blue-100 text-sm mt-1">

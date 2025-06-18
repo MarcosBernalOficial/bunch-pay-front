@@ -28,19 +28,40 @@ export default function MyAccount() {
     }, [activeTab]);
 
     useEffect(() => {
-        if (activeTab !== 'soporte' || !chatId) return;
-
-        const interval = setInterval(async () => {
+        let polling;
+        async function fetchChatAndMessages() {
             try {
-                const msgs = await getMessages(chatId);
+                let id = chatId;
+                if (!id) {
+                    const res = await startChat();
+                    id = res.id;
+                    setChatId(id);
+                }
+                const msgs = await getMessages(id);
                 setMessages(msgs);
-            } catch (err) {
-                console.error('Error al hacer polling de mensajes:', err);
-            }
-        }, 2000);
 
-        return () => clearInterval(interval);
-    }, [activeTab, chatId]);
+                // Iniciá el polling SOLO después de tener chatId
+                polling = setInterval(async () => {
+                    try {
+                        const polledMsgs = await getMessages(id);
+                        setMessages(polledMsgs);
+                    } catch (err) {
+                        console.error('Error al hacer polling de mensajes:', err);
+                    }
+                }, 2000);
+            } catch (err) {
+                console.error("Error al iniciar chat con soporte:", err);
+                setMessages([]);
+            }
+        }
+
+        if (activeTab === 'soporte') {
+            fetchChatAndMessages();
+        }
+        return () => polling && clearInterval(polling);
+        // eslint-disable-next-line
+    }, [activeTab]);
+
 
     const handleSendMessage = async (text) => {
         try {

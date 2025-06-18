@@ -77,9 +77,12 @@ export default function DashboardMain() {
                                 <FontAwesomeIcon icon={faCreditCard} className="text-xl" /><br />Tarjeta
                             </Link>
                         </div>
-                        <button className="w-full mt-6 py-2 bg-blue-dark border border-blue-accent rounded-md block lg:hidden">
+                        <Link
+                            to="/movimientos"
+                            className="w-full mt-6 py-2 bg-blue-dark border border-blue-accent rounded-md block lg:hidden text-center hover:bg-blue-accent hover:text-blue-dark transition"
+                        >
                             Movimientos
-                        </button>
+                        </Link>
                     </div>
 
                     <div className="bg-blue-mid rounded-xl p-6 border border-blue-accent">
@@ -114,7 +117,6 @@ export default function DashboardMain() {
                         </div>
                     </div>
                 </div>
-
                 <aside className="hidden lg:flex bg-blue-mid rounded-xl border border-blue-accent h-full overflow-hidden flex-col lg:max-h-[76dvh]">
                     <h3 className="text-blue-accent text-center text-2xl font-semibold p-6 pb-3">
                         Movimientos
@@ -123,19 +125,29 @@ export default function DashboardMain() {
                         {transactions.length === 0 ? (
                             <p className="text-blue-200 text-center">Sin movimientos</p>
                         ) : (
-                            transactions.map((tx) => (
-                                <div key={tx.id} className="flex justify-between items-center">
-                                    <span>
-                                        {tx.type === 'EXPENSE' ? '🛍️' : '💸'} {tx.description || 'Sin descripción'}
-                                    </span>
-                                    <span className={tx.type === 'EXPENSE' ? 'text-red-400' : 'text-green-profit'}>
-                                        {tx.type === 'EXPENSE' ? '-' : '+'} ${parseFloat(tx.amount).toLocaleString('es-AR', {
-                                            minimumFractionDigits: 2,
-                                            maximumFractionDigits: 2
-                                        })}
-                                    </span>
-                                </div>
-                            ))
+                            transactions.map((tx) => {
+                                // Lógica: gasto = RETIRO, PAGO, o TRANSFERENCIA con descripción "Envio"
+                                // Ingreso = DEPOSITO o TRANSFERENCIA con descripción "Recibido"
+                                let isExpense;
+                                if (tx.type === "TRANSFERENCIA") {
+                                    isExpense = tx.description === "Envio";
+                                } else {
+                                    isExpense = ["RETIRO", "PAGO"].includes(tx.type);
+                                }
+                                return (
+                                    <div key={tx.id} className="flex justify-between items-center">
+                                        <span>
+                                            {tx.description || 'Sin descripción'}
+                                        </span>
+                                        <span className={isExpense ? 'text-red-400' : 'text-green-profit'}>
+                                            {isExpense ? '-' : '+'} ${parseFloat(tx.amount).toLocaleString('es-AR', {
+                                                minimumFractionDigits: 2,
+                                                maximumFractionDigits: 2
+                                            })}
+                                        </span>
+                                    </div>
+                                );
+                            })
                         )}
                     </div>
                 </aside>
