@@ -34,11 +34,7 @@ export default function AdminPanel() {
             <h1 className="text-2xl font-bold mb-6 text-blue-accent text-center">
                 Panel de Administrador
             </h1>
-
-            {/* Formulario para crear nuevo soporte */}
             <SupportUserForm onSuccess={fetchSupports} />
-
-            {/* Lista de soportes existentes */}
             <div className="mt-10 max-w-xl mx-auto">
                 <h2 className="text-lg font-semibold text-blue-accent mb-2">
                     Soportes existentes
@@ -65,8 +61,6 @@ export default function AdminPanel() {
                         ))}
                 </ul>
             </div>
-
-            {/* Formulario de edición */}
             {editingSupport && (
                 <EditSupportForm
                     support={editingSupport}
@@ -77,16 +71,12 @@ export default function AdminPanel() {
                     }}
                 />
             )}
-
-            {/* Botón para cerrar sesión */}
             <button
                 onClick={() => setShowLogoutModal(true)}
                 className="bg-red-600 text-white px-4 py-2 rounded font-semibold hover:bg-red-500 transition mx-auto block mt-6"
             >
                 Cerrar sesión
             </button>
-
-            {/* Modal de confirmación */}
             {showLogoutModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-blue-dark text-white p-6 rounded-lg shadow-lg w-full max-w-sm">

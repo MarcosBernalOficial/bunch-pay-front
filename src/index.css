@@ -6,8 +6,6 @@ html{
     background-color: #0d1117;
 }
 
-
-/* Tailwind: ocultar scroll */
 .no-scrollbar::-webkit-scrollbar {
     display: none;
 }

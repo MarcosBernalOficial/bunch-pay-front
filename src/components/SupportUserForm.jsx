@@ -33,8 +33,6 @@ export default function SupportUserForm({ onSuccess }) {
             if (onSuccess) onSuccess();
         } catch (err) {
             console.error(err);
-
-            // ✅ Solo mostrar mensaje de error, y asegurarte de NO mostrar éxito
             setSuccess("");
             if (err.response?.status === 409) {
             setError("Ese correo ya está registrado.");

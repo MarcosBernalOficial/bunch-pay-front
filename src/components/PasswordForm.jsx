@@ -22,7 +22,6 @@ export default function PasswordForm() {
         e.preventDefault();
         setError(null);
         try {
-            // Confirmá el endpoint, debería ser '/client/change-password'
             await api.put('/client/change-password', formData);
             setSuccess(true);
             setFormData({ currentPassword: '', newPassword: '' });

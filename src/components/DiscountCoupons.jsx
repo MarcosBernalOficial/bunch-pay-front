@@ -56,7 +56,6 @@ export default function DiscountCoupons() {
                                 </span>
                                 <span className="text-xs text-white mt-1">Vence: {new Date(coupons[current].expirationDate).toLocaleDateString()}</span>
                             </div>
-                            {/* Botones de navegación */}
                             <button
                                 onClick={handlePrev}
                                 className="absolute left-0 top-1/2 -translate-y-1/2 bg-blue-soft rounded-full p-1 shadow border border-blue-mid hover:bg-blue-accent transition disabled:opacity-40 mx-2"
@@ -74,7 +73,6 @@ export default function DiscountCoupons() {
                                 <ChevronRight className="w-5 h-5 text-blue-dark" />
                             </button>
                         </div>
-                        {/* Indicadores tipo "• • o" */}
                         <div className="flex justify-center gap-1 my-3">
                             {coupons.map((_, idx) => (
                                 <span

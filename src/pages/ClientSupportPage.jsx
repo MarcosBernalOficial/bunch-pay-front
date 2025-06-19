@@ -5,7 +5,6 @@ export default function ClientSupportPage() {
     const [messages, setMessages] = useState([]);
     const [chatId, setChatId] = useState(null);
 
-    // Crear o recuperar el chat + obtener mensajes iniciales
     const initChat = async () => {
         try {
             const resChat = await fetch("/client/chats/start", {
@@ -53,7 +52,7 @@ export default function ClientSupportPage() {
                 },
                 body: text,
             });
-            await loadMessages(); // refrescar mensajes
+            await loadMessages();
         } catch (err) {
             console.error("Error al enviar mensaje:", err);
         }

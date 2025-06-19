@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import api from '../utils/api';
 import DashboardFooter from './DashboardFooter';
 
-// Etiquetas en español para los tipos
 const typeLabels = {
     DEPOSITO: "Depósito",
     RETIRO: "Retiro",
     PAGO: "Pago",
-    TRANSFERENCIA: "Transferencia", // Por si quedan viejos, se muestra igual
+    TRANSFERENCIA: "Transferencia",
 };
 
 export default function Movimientos() {
@@ -28,15 +27,11 @@ export default function Movimientos() {
             });
     }, []);
 
-    // Función mejorada para decidir si es gasto o ingreso
     function isExpense(tx) {
-        // Si ya tenés tipo nuevo
         if (tx.type === "RETIRO" || tx.type === "PAGO") return true;
         if (tx.type === "DEPOSITO") return false;
-        // Por si tenés movimientos viejos con TRANSFERENCIA
         if (tx.type === "TRANSFERENCIA" && tx.description === "Envio") return true;
         if (tx.type === "TRANSFERENCIA" && tx.description === "Recibido") return false;
-        // Default a gasto por seguridad
         return true;
     }
 
@@ -61,10 +56,9 @@ export default function Movimientos() {
                 {!loading && !error && transactions.length === 0 && (
                     <p className="text-blue-200 text-center">No hay movimientos registrados.</p>
                 )}
-
                 <div className="space-y-4">
                     {transactions
-                    .slice() // copia por si acaso
+                    .slice()
                     .reverse()
                     .map(tx => (
                         <div
@@ -90,8 +84,6 @@ export default function Movimientos() {
                     ))}
                 </div>
             </div>
-
-            {/* Footer */}
             <div className="w-full px-4 py-4 border-t border-blue-accent bg-blue-mid">
                 <div className="max-w-screen-xl mx-auto">
                     <DashboardFooter />

@@ -5,7 +5,7 @@ import {
     assignChat,
     getMessages,
     closeChat,
-    sendMessage, // ✅ Importamos la función de envío desde el API
+    sendMessage,
 } from "../services/supportApi";
 import ChatWindow from "./SupportChat";
 import { useNavigate } from "react-router-dom";
@@ -57,7 +57,7 @@ export default function SupportChatDashboard() {
 
     const handleSendMessage = async (text) => {
         try {
-            await sendMessage(selectedChat.id, text); // ✅ Usamos la función desde supportApi
+            await sendMessage(selectedChat.id, text);
             await loadMessages();
         } catch (err) {
             console.error("Error al enviar mensaje:", err);
@@ -100,7 +100,6 @@ export default function SupportChatDashboard() {
             </div>
 
             <div className="flex gap-6 flex-wrap">
-                {/* Mis Chats */}
                 <div className="w-full md:w-1/4 bg-blue-mid p-4 rounded-xl border border-blue-accent shadow-lg">
                     <h3 className="font-semibold text-blue-accent mb-3 text-center">Mis Chats</h3>
                     <div className="">
@@ -124,8 +123,6 @@ export default function SupportChatDashboard() {
                         )}
                     </div>
                 </div>
-
-                {/* Chats por tomar */}
                 <div className="w-full md:w-1/4 bg-blue-mid p-4 rounded-xl border border-blue-accent shadow-lg">
                     <h3 className="font-semibold text-blue-accent mb-3 text-center">Chats por tomar</h3>
                     <div className="divide-y divide-blue-accent">
@@ -148,8 +145,6 @@ export default function SupportChatDashboard() {
                         )}
                     </div>
                 </div>
-
-                {/* Chat activo */}
                 <div className="flex-1 bg-blue-mid p-4 rounded-xl border border-blue-accent shadow-lg flex flex-col">
                     {selectedChat ? (
                         <>

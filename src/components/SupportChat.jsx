@@ -21,7 +21,6 @@ export default function SupportChat({ messages = [], onSendMessage, isSupport, d
 
     return (
         <div className="bg-blue-mid border border-blue-accent rounded-xl shadow-xl h-[500px] flex flex-col">
-            {/* Mensajes */}
             <div className="p-4 flex-1 space-y-4 overflow-y-auto no-scrollbar">
                 {messages.map((m, index) => {
                     const mine = isMyMessage(m.senderType);
@@ -54,8 +53,6 @@ export default function SupportChat({ messages = [], onSendMessage, isSupport, d
                 })}
                 <div ref={bottomRef}></div>
             </div>
-
-            {/* Input y botón */}
             <div className="p-3 border-t border-blue-accent flex gap-2 bg-blue-dark rounded-b-xl">
                 <input
                     disabled={disabled}

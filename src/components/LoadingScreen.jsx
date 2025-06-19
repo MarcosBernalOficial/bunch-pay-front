@@ -12,11 +12,10 @@ const LoadingScreen = ({ children }) => {
 
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 2000); // 2 segundos de splash screen
+        }, 2000);
 
         return () => clearTimeout(timer);
         } else {
-        // Ya cargó antes, mostrar contenido directo
         setLoading(false);
         }
     }, []);

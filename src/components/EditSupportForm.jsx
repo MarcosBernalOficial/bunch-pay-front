@@ -5,7 +5,7 @@ export default function EditSupportForm({ support, onCancel, onSave }) {
     const [form, setForm] = useState({
         firstName: support.firstName,
         lastName: support.lastName,
-        password: "", // nueva contraseña (opcional)
+        password: "",
     });
 
     const [error, setError] = useState("");
@@ -24,7 +24,6 @@ export default function EditSupportForm({ support, onCancel, onSave }) {
         try {
             const dataToSend = { ...form };
 
-            // Si no se cargó contraseña, no la mandes
             if (!form.password.trim()) {
                 delete dataToSend.password;
             }
@@ -61,7 +60,7 @@ export default function EditSupportForm({ support, onCancel, onSave }) {
                     name="email"
                     type="email"
                     value={support.email}
-                    readOnly // 👈 no editable
+                    readOnly
                     className="w-full p-2 rounded bg-blue-dark text-white placeholder:text-blue-accent opacity-70 cursor-not-allowed"
                 />
                 <input

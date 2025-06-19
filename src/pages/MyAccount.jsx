@@ -39,8 +39,6 @@ export default function MyAccount() {
                 }
                 const msgs = await getMessages(id);
                 setMessages(msgs);
-
-                // Iniciá el polling SOLO después de tener chatId
                 polling = setInterval(async () => {
                     try {
                         const polledMsgs = await getMessages(id);
@@ -59,7 +57,6 @@ export default function MyAccount() {
             fetchChatAndMessages();
         }
         return () => polling && clearInterval(polling);
-        // eslint-disable-next-line
     }, [activeTab]);
 
 

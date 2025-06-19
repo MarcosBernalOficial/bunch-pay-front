@@ -75,7 +75,6 @@ export default function DashboardMain() {
             });
     }, []);
 
-    // Balance y rendimientos
     useEffect(() => {
         api.get('/accountClient/balance')
             .then(res => {
@@ -110,7 +109,6 @@ export default function DashboardMain() {
         <div className="w-full max-w-screen-xl mx-auto px-4 lg:px-8 py-6 pb-24 flex flex-col justify-between">
             <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-10 flex-grow">
                 <div className="space-y-10">
-                    {/* ...Saldo y acciones... */}
                     <div className="bg-blue-mid rounded-xl p-6 border border-blue-accent">
                         <div className="flex justify-between items-center mb-2">
                             <button
@@ -147,7 +145,6 @@ export default function DashboardMain() {
                         </Link>
                     </div>
 
-                    {/* Servicios */}
                     <div className="bg-blue-mid rounded-xl p-6 border border-blue-accent">
                         <h3 className="text-blue-accent text-center text-lg font-semibold mb-4">Servicios</h3>
                         <div className="grid grid-cols-3 gap-5 text-sm text-center">
@@ -175,7 +172,6 @@ export default function DashboardMain() {
                         </div>
                     </div>
 
-                    {/* Cupones + Rendimientos */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         <div className="bg-blue-mid p-6 rounded-xl border border-blue-accent flex flex-col justify-center min-h-[220px] max-h-[220px] overflow-hidden">
                             <DiscountCoupons />
@@ -256,7 +252,6 @@ export default function DashboardMain() {
                 </aside>
             </div>
 
-            {/* MODAL: la key se usa para "resetear" el componente y limpiar los inputs */}
             <ServiceRechargeModal
                 key={modalKey}
                 open={showRecharge}

@@ -16,7 +16,6 @@ export default function ServiceRechargeModal({
 }) {
     const [amount, setAmount] = useState('');
     const [destination, setDestination] = useState('');
-    // **Sacamos el manejo interno de error, lo pasa el padre**
 
     if (!open) return null;
 
@@ -70,7 +69,6 @@ export default function ServiceRechargeModal({
                             onChange={e => setAmount(e.target.value)}
                         />
                     </div>
-                    {/* Mostrá error en rojo si existe */}
                     {error && <div className="text-red-400 text-sm">{error}</div>}
                     <button
                         type="submit"
