@@ -132,7 +132,6 @@ export default function AccountForm({ data, setClientData }) {
             </button>
         </form>
 
-        {/* Modal de confirmación */}
         {showLogoutModal && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-blue-dark text-white p-6 rounded-lg shadow-lg w-full max-w-sm">

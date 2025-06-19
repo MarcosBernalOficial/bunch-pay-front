@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import api from "../utils/api"; // Asegurate que api esté bien configurado
+import api from "../utils/api";
 import DashboardFooter from "./DashboardFooter";
 
 export default function CryptoPrices() {

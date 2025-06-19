@@ -40,9 +40,20 @@ export default function Movimientos() {
         return true;
     }
 
+    if (loading) {
+        return (
+            <div className="min-h-screen flex flex-col bg-blue-dark justify-between">
+                <div className="flex-grow p-4 max-w-2xl mx-auto w-full flex items-center justify-center">
+                    <p className="text-blue-200 text-center text-lg animate-pulse">Cargando movimientos...</p>
+                </div>
+                <DashboardFooter />
+            </div>
+        );
+    }
+
     return (
         <div className="min-h-screen flex flex-col bg-blue-dark justify-between">
-            <div className="flex-grow p-4 max-w-2xl mx-auto w-full">
+            <div className="flex-grow p-4 max-w-2xl mx-auto w-full mb-16">
                 <h2 className="text-2xl font-bold text-blue-accent text-center mb-6">Movimientos</h2>
 
                 {loading && <p className="text-blue-200 text-center">Cargando movimientos...</p>}
@@ -52,7 +63,10 @@ export default function Movimientos() {
                 )}
 
                 <div className="space-y-4">
-                    {transactions.map(tx => (
+                    {transactions
+                    .slice() // copia por si acaso
+                    .reverse()
+                    .map(tx => (
                         <div
                             key={tx.id || `${tx.type}-${tx.date}-${tx.amount}`}
                             className="bg-blue-mid border border-blue-accent rounded-xl p-4 shadow transition hover:scale-[1.01]"

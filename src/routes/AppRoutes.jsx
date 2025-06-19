@@ -14,6 +14,7 @@ import Movimientos from '../components/Movimientos';
 import Notifications from '../pages/Notifications';
 import Balance from '../components/BalanceDashboard';
 import CryptoPrices from "../components/CryptoPrices";
+import BenefitsAndServices from '../components/BenefitsAndServices';
 
 export default function AppRoutes() {
     return (
@@ -115,6 +116,14 @@ export default function AppRoutes() {
                 element={
                     <ProtectedRoute>
                         <CryptoPrices />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/benefits"
+                element={
+                    <ProtectedRoute>
+                        <BenefitsAndServices />
                     </ProtectedRoute>
                 }
             />
